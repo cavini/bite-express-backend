@@ -7,20 +7,16 @@ import mongoose from "mongoose";
 
 const getMyRestaurant = async (req: Request, res: Response) => {
   try {
-    const restaurant = Restaurant.findOne({ user: req.userId })
+    const restaurant = await Restaurant.findOne({ user: req.userId });
     if (!restaurant) {
-      return res.status(404).json({
-        message: 'Restaurant not found'
-      })
+      return res.status(404).json({ message: "restaurant not found" });
     }
-
-    res.json(restaurant)
-
+    res.json(restaurant);
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: "Something went wrong while fetching restaurant data" })
+    console.log("error", error);
+    res.status(500).json({ message: "Something went wrong while fetching restaurant data" });
   }
-}
+};
 
 
 const createMyRestaurant = async (req: Request, res: Response) => {
