@@ -44,10 +44,10 @@ const updateCurrentUser = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" })
     }
 
-    user.name = name
-    user.addressLine1 = addressLine1
-    user.city = city
-    user.country = country
+    user.name = name;
+    user.addressLine1 = addressLine1;
+    user.city = city;
+    user.country = country;
 
     await user.save()
 
