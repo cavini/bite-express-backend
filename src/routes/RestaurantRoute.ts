@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.get('/:restaurantId', validateSearchRestaurantByIdRequest, RestaurantController.getRestaurant)
 
-router.get('/search/:city', validateSearchRestaurantByCityRequest, RestaurantController.searchRestaurants)
+router.get('/search/:city', validateSearchRestaurantByCityRequest, RestaurantController.searchRestaurant)
 
 export default router
