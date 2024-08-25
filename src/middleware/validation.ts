@@ -49,10 +49,19 @@ export const validateMyRestaurantRequest = [
   handleValidationErrors,
 ];
 
-export const validateRestaurantRequest = [
+export const validateSearchRestaurantByCityRequest = [
   param("city")
     .isString()
     .trim()
     .notEmpty()
     .withMessage("City paramenter must be a valid string"),
+];
+
+
+export const validateSearchRestaurantByIdRequest = [
+  param("restaurantId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("restaurantId paramenter must be a valid string"),
 ];

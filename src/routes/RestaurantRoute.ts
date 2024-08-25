@@ -1,11 +1,12 @@
 import express from "express"
 import { param } from "express-validator"
-import { validateRestaurantRequest } from "../middleware/validation"
+import { validateSearchRestaurantByCityRequest, validateSearchRestaurantByIdRequest } from "../middleware/validation"
 import RestaurantController from "../controllers/RestaurantController"
 
 const router = express.Router()
 
+router.get('/:restaurantId', validateSearchRestaurantByIdRequest, RestaurantController.getRestaurant)
 
-router.get('/search/:city', validateRestaurantRequest, RestaurantController.searchRestaurants)
+router.get('/search/:city', validateSearchRestaurantByCityRequest, RestaurantController.searchRestaurants)
 
 export default router
