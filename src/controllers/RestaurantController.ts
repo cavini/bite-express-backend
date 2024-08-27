@@ -18,6 +18,11 @@ const getRestaurant = async (req: Request, res: Response) => {
   }
 };
 
+
+
+
+
+
 const searchRestaurant = async (req: Request, res: Response) => {
   try {
     const city = req.params.city;
@@ -29,8 +34,12 @@ const searchRestaurant = async (req: Request, res: Response) => {
 
     let query: any = {};
 
-    query["city"] = new RegExp(city, "i");
-    const cityCheck = await Restaurant.countDocuments(query);
+    query["city"] = city;
+    console.log('query', query)
+    console.log('query["city"]', query["city"])
+    const cityCheck = await Restaurant.countDocuments(query).collation({ locale: "en", strength: 1 });
+    console.log('cityCheck', cityCheck)
+
     if (cityCheck === 0) {
       return res.status(404).json({
         data: [],
@@ -45,7 +54,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
     if (selectedCuisines) {
       const cuisinesArray = selectedCuisines
         .split(",")
-        .map((cuisine) => new RegExp(cuisine, "i"));
+        .map((cuisine) => cuisine.trim());
 
       query["cuisines"] = { $all: cuisinesArray };
     }
@@ -62,12 +71,13 @@ const searchRestaurant = async (req: Request, res: Response) => {
     const skip = (page - 1) * pageSize;
 
     const restaurants = await Restaurant.find(query)
+      .collation({ locale: "en", strength: 1 })
       .sort({ [sortOption]: 1 })
       .skip(skip)
       .limit(pageSize)
       .lean();
 
-    const total = await Restaurant.countDocuments(query);
+    const total = await Restaurant.countDocuments(query).collation({ locale: "en", strength: 1 });
 
     const response = {
       data: restaurants,
@@ -84,6 +94,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong while fetching restaurants" });
   }
 };
+
 
 const getMyRestaurantOrders = async (req: Request, res: Response) => {
   try {
