@@ -14,14 +14,11 @@ const getRestaurant = async (req: Request, res: Response) => {
     res.json(restaurant);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong while fetching restaurant data" });
+    res
+      .status(500)
+      .json({ message: "Something went wrong while fetching restaurant data" });
   }
 };
-
-
-
-
-
 
 const searchRestaurant = async (req: Request, res: Response) => {
   try {
@@ -35,10 +32,13 @@ const searchRestaurant = async (req: Request, res: Response) => {
     let query: any = {};
 
     query["city"] = city;
-    console.log('query', query)
-    console.log('query["city"]', query["city"])
-    const cityCheck = await Restaurant.countDocuments(query).collation({ locale: "en", strength: 1 });
-    console.log('cityCheck', cityCheck)
+    console.log("query", query);
+    console.log('query["city"]', query["city"]);
+    const cityCheck = await Restaurant.countDocuments(query).collation({
+      locale: "en",
+      strength: 1,
+    });
+    console.log("cityCheck", cityCheck);
 
     if (cityCheck === 0) {
       return res.status(404).json({
@@ -77,7 +77,10 @@ const searchRestaurant = async (req: Request, res: Response) => {
       .limit(pageSize)
       .lean();
 
-    const total = await Restaurant.countDocuments(query).collation({ locale: "en", strength: 1 });
+    const total = await Restaurant.countDocuments(query).collation({
+      locale: "en",
+      strength: 1,
+    });
 
     const response = {
       data: restaurants,
@@ -91,10 +94,11 @@ const searchRestaurant = async (req: Request, res: Response) => {
     res.json(response);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong while fetching restaurants" });
+    res
+      .status(500)
+      .json({ message: "Something went wrong while fetching restaurants" });
   }
 };
-
 
 const getMyRestaurantOrders = async (req: Request, res: Response) => {
   try {
@@ -110,7 +114,11 @@ const getMyRestaurantOrders = async (req: Request, res: Response) => {
     res.json(orders);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong while fetching users restaurant" });
+    res
+      .status(500)
+      .json({
+        message: "Something went wrong while fetching users restaurant",
+      });
   }
 };
 
@@ -140,12 +148,9 @@ const updateOrderStatus = async (req: Request, res: Response) => {
   }
 };
 
-
-
-
 export default {
   getRestaurant,
   searchRestaurant,
   updateOrderStatus,
-  getMyRestaurantOrders
+  getMyRestaurantOrders,
 };

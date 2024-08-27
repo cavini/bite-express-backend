@@ -4,8 +4,6 @@ import mongoose from "mongoose";
 import { uploadImage } from "../utils";
 import Order from "../models/order";
 
-
-
 const getMyRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurant = await Restaurant.findOne({ user: req.userId });
@@ -15,42 +13,47 @@ const getMyRestaurant = async (req: Request, res: Response) => {
     res.json(restaurant);
   } catch (error) {
     console.log("error", error);
-    res.status(500).json({ message: "Something went wrong while fetching restaurant data" });
+    res
+      .status(500)
+      .json({ message: "Something went wrong while fetching restaurant data" });
   }
 };
 
-
 const createMyRestaurant = async (req: Request, res: Response) => {
   try {
-    const existingRestaurant = await Restaurant.findOne({ user: req.userId })
+    const existingRestaurant = await Restaurant.findOne({ user: req.userId });
 
     if (existingRestaurant) {
-      return res.status(409).json({ message: 'User restaurant already exists' })
+      return res
+        .status(409)
+        .json({ message: "User restaurant already exists" });
     }
 
-    const imageUrl = await uploadImage(req.file as Express.Multer.File)
+    const imageUrl = await uploadImage(req.file as Express.Multer.File);
 
-    const restaurant = new Restaurant(req.body)
+    const restaurant = new Restaurant(req.body);
     restaurant.imageUrl = imageUrl;
-    restaurant.user = new mongoose.Types.ObjectId(req.userId)
-    restaurant.lastUpdated = new Date()
-    await restaurant.save()
+    restaurant.user = new mongoose.Types.ObjectId(req.userId);
+    restaurant.lastUpdated = new Date();
+    await restaurant.save();
 
-    res.status(201).send(restaurant)
+    res.status(201).send(restaurant);
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: 'Something went wrong while creating your restaurant' })
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong while creating your restaurant" });
   }
-}
+};
 
 const updateMyRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurant = await Restaurant.findOne({
       user: req.userId,
-    })
+    });
 
     if (!restaurant) {
-      return res.status(404).json({ message: 'Restaurant not found' })
+      return res.status(404).json({ message: "Restaurant not found" });
     }
 
     restaurant.restaurantName = req.body.restaurantName;
@@ -63,17 +66,19 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
     restaurant.lastUpdated = new Date();
 
     if (req.file) {
-      const imageUrl = await uploadImage(req.file as Express.Multer.File)
+      const imageUrl = await uploadImage(req.file as Express.Multer.File);
       restaurant.imageUrl = imageUrl;
     }
 
-    await restaurant.save()
-    res.status(200).send(restaurant)
+    await restaurant.save();
+    res.status(200).send(restaurant);
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: 'Something went wrong while updating restaurant info' })
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong while updating restaurant info" });
   }
-}
+};
 const getMyRestaurantOrders = async (req: Request, res: Response) => {
   try {
     const restaurant = await Restaurant.findOne({ user: req.userId });
@@ -118,12 +123,10 @@ const updateOrderStatus = async (req: Request, res: Response) => {
   }
 };
 
-
-
 export default {
   getMyRestaurant,
   createMyRestaurant,
   updateMyRestaurant,
   updateOrderStatus,
-  getMyRestaurantOrders
-}
+  getMyRestaurantOrders,
+};

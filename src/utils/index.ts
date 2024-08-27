@@ -5,18 +5,25 @@ import Stripe from "stripe";
 
 export const uploadImage = async (file: Express.Multer.File) => {
   const image = file;
-  const base64Image = Buffer.from(image.buffer).toString('base64')
-  const dataURI = `data:${image.mimetype};base64,${base64Image}`
-  const uploadResponse = await cloudinary.v2.uploader.upload(dataURI)
-  return uploadResponse.url
-}
+  const base64Image = Buffer.from(image.buffer).toString("base64");
+  const dataURI = `data:${image.mimetype};base64,${base64Image}`;
+  const uploadResponse = await cloudinary.v2.uploader.upload(dataURI);
+  return uploadResponse.url;
+};
 
-export const createLineItems = (checkoutSessionRequest: CheckoutSessionRequest, menuItems: MenuItemType[]) => {
+export const createLineItems = (
+  checkoutSessionRequest: CheckoutSessionRequest,
+  menuItems: MenuItemType[],
+) => {
   const lineItems = checkoutSessionRequest.cartItems.map((cartItem) => {
-    const menuItem = menuItems.find((item) => item._id.toString() === cartItem.menuItemId.toString())
+    const menuItem = menuItems.find(
+      (item) => item._id.toString() === cartItem.menuItemId.toString(),
+    );
 
     if (!menuItem) {
-      throw new Error(`Menu item not found: ${cartItem.name} ${cartItem.menuItemId}`)
+      throw new Error(
+        `Menu item not found: ${cartItem.name} ${cartItem.menuItemId}`,
+      );
     }
 
     const line_item: Stripe.Checkout.SessionCreateParams.LineItem = {
@@ -28,13 +35,10 @@ export const createLineItems = (checkoutSessionRequest: CheckoutSessionRequest, 
         },
       },
       quantity: parseInt(cartItem.quantity),
-
-    }
+    };
 
     return line_item;
-  })
+  });
 
-  return lineItems
-}
-
-
+  return lineItems;
+};

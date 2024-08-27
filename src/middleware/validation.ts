@@ -4,7 +4,7 @@ import { body, param, validationResult } from "express-validator";
 const handleValidationErrors = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -56,7 +56,6 @@ export const validateSearchRestaurantByCityRequest = [
     .notEmpty()
     .withMessage("City paramenter must be a valid string"),
 ];
-
 
 export const validateSearchRestaurantByIdRequest = [
   param("restaurantId")
