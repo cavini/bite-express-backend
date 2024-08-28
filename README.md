@@ -2,6 +2,8 @@
 
 Welcome to the **Bite Express** backend repository! This backend service is built to support the Bite Express frontend application, providing robust and secure functionalities for managing restaurant data, handling orders, and processing payments.
 
+For the front end code, visit: https://github.com/cavini/bite-express-frontend
+
 ## 🌟 Features
 
 ### Core Functionality:
