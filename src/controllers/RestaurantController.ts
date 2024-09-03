@@ -114,11 +114,9 @@ const getMyRestaurantOrders = async (req: Request, res: Response) => {
     res.json(orders);
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        message: "Something went wrong while fetching users restaurant",
-      });
+    res.status(500).json({
+      message: "Something went wrong while fetching users restaurant",
+    });
   }
 };
 
