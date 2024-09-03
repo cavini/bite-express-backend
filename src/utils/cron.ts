@@ -7,7 +7,7 @@ import https from "https";
 // running for recruiters and other people that might want to check out this project.
 
 const backendUrl = `${process.env.BACKEND_PROD_URL}/health`;
-const job = new CronJob("*/10 * * * *", function () {
+export const job = new CronJob("*/10 * * * *", function () {
   console.log("Restarting server");
   https
     .get(backendUrl, (res: IncomingMessage) => {
@@ -22,5 +22,3 @@ const job = new CronJob("*/10 * * * *", function () {
       console.error("Error during Restart:", err.message);
     });
 });
-
-module.exports = { job: job };
