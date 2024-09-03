@@ -9,6 +9,10 @@ import orderRoute from "./routes/OrderRoute";
 
 import { v2 as cloudinary } from "cloudinary";
 
+const job = require('./utils/cron.ts').job
+job.start();
+
+
 const port = process.env.PORT || 7000;
 mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING as string)
